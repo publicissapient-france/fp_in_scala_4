@@ -1,8 +1,10 @@
 scalaVersion := "2.11.7"
 
-libraryDependencies += "org.scalacheck" %% "scalacheck" % "1.12.2"
+libraryDependencies += "org.scalacheck" %% "scalacheck" % "1.12.2" % "test"
 
-libraryDependencies += "org.scalatest" %% "scalatest" % "2.2.1" withSources()
+libraryDependencies += "org.scalatest" %% "scalatest" % "2.2.1" % "test" withSources()
+
+libraryDependencies += "org.pegdown" % "pegdown" % "1.4.2" % "test"
 
 libraryDependencies += "org.scalaz" %% "scalaz-core" % "7.0.6" withSources()
 
