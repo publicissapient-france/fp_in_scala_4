@@ -66,7 +66,7 @@ class PartialFunctionSpec extends FunSpec with Matchers {
 
   describe("an acl is composed of restrictions") {
 
-    they("can be defined only on a restricted space of users") {
+    they("can be defined only on a restricted space of users", EXO_4_6) {
       val simpleRestriction: Restriction = {
         case AdminUser => true
         case BankUser("bob", _) => true
@@ -77,7 +77,7 @@ class PartialFunctionSpec extends FunSpec with Matchers {
       simpleRestriction.isDefinedAt(BankUser("tom", BankId(1))) shouldBe false
     }
 
-    they("are composable") {
+    they("are composable", EXO_4_6) {
       val adminRestriction: Restriction = {
         case AdminUser => true
       }
@@ -97,7 +97,7 @@ class PartialFunctionSpec extends FunSpec with Matchers {
       composedRestriction.isDefinedAt(BankUser("bob", BankId(1))) shouldBe true
     }
 
-    they("throw a MatchError when a value out of definition spaced is applied") {
+    they("throw a MatchError when a value out of definition spaced is applied", EXO_4_6) {
       a[MatchError] shouldBe thrownBy {
         val adminRestriction: Restriction = {
           case AdminUser => true
@@ -108,7 +108,7 @@ class PartialFunctionSpec extends FunSpec with Matchers {
 
     }
 
-    they("can be lifted to a full function") {
+    they("can be lifted to a full function", EXO_4_6) {
       val adminRestriction: Restriction = {
         case AdminUser => true
       }
@@ -134,7 +134,7 @@ class PartialFunctionSpec extends FunSpec with Matchers {
     """.stripMargin)
   describe("a PartialAcl") {
 
-    it("is composed of restriction") {
+    it("is composed of restriction", EXO_4_7) {
       val partialAcl: PartialAcl[Bank] = (bank: Bank) => {
         case BankUser(name, parentId) if parentId == bank.id => true
       }
@@ -145,7 +145,7 @@ class PartialFunctionSpec extends FunSpec with Matchers {
       partialAcl(resource).isDefinedAt(BankUser("admin", BankId(2))) shouldBe false
     }
 
-    it("can be lifted to a full function with default behavior") {
+    it("can be lifted to a full function with default behavior", EXO_4_7) {
       val partialAcl: PartialAcl[Bank] = (bank: Bank) => {
         case BankUser(name, parentId) if parentId == bank.id => true
       }
@@ -171,23 +171,23 @@ class PartialFunctionSpec extends FunSpec with Matchers {
       case BankUser(_, parentId) if parentId == bank.id => true
     }
 
-    it("should give access to an attached bank admin") {
+    it("should give access to an attached bank admin", EXO_4_8) {
       bankAcl(bnpp)(bnpAdmin) shouldBe true
     }
 
-    it("should not give access to a bank admin attached to another bank") {
+    it("should not give access to a bank admin attached to another bank", EXO_4_8) {
       bankAcl(bnpp).isDefinedAt(sgAdmin) shouldBe false
     }
 
-    it("should not give access to a merchant user") {
+    it("should not give access to a merchant user", EXO_4_8) {
       bankAcl(bnpp).isDefinedAt(sephoraAdmin) shouldBe false
     }
 
-    it("should delegate global admin") {
+    it("should delegate global admin", EXO_4_8) {
       bankAcl(bnpp).isDefinedAt(AdminUser) shouldBe false
     }
 
-    it("can be used with RestService#findBank") {
+    it("can be used with RestService#findBank", EXO_4_8) {
       val findBank: (User) => (BankId) => Option[Bank] = PartialAcl.lift(bankAcl) andThen RestService.findBank(bankRepo)
 
       listApplicative.fpair2(users)(bankIds)(findBank) shouldBe List(
@@ -210,27 +210,27 @@ class PartialFunctionSpec extends FunSpec with Matchers {
       case MerchantUser(_, parentId) if parentId == merchant.id => true
     }
 
-    it("should give access to an attached bank admin") {
+    it("should give access to an attached bank admin", EXO_4_9) {
       merchantAcl(mcdo)(bnpAdmin) shouldBe true
     }
 
-    it("should not give access to a bank admin attached to another bank") {
+    it("should not give access to a bank admin attached to another bank", EXO_4_9) {
       merchantAcl(mcdo).isDefinedAt(sgAdmin) shouldBe false
     }
 
-    it("should give access to attached merchant user") {
+    it("should give access to attached merchant user", EXO_4_9) {
       merchantAcl(mcdo)(mcdoAdmin) shouldBe true
     }
 
-    it("should not give access to a merchant admin attached to another merchant") {
+    it("should not give access to a merchant admin attached to another merchant", EXO_4_9) {
       merchantAcl(mcdo).isDefinedAt(sephoraAdmin) shouldBe false
     }
 
-    it("should delegate global admin") {
+    it("should delegate global admin", EXO_4_9) {
       merchantAcl(mcdo).isDefinedAt(AdminUser) shouldBe false
     }
 
-    it("can be used with RestService#findMerchant") {
+    it("can be used with RestService#findMerchant", EXO_4_9) {
       val findMerchant = PartialAcl.lift(merchantAcl) andThen RestService.findMerchant(merchantRepo)
 
       listApplicative.fpair2(users)(merchantIds)(findMerchant) shouldBe List(

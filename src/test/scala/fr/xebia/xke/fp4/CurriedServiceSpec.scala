@@ -65,7 +65,7 @@ class CurriedServiceSpec extends FunSpec with Matchers {
       |
       |##Tests
     """.stripMargin)
-  
+
   describe("findBank function") {
 
     describe("with a bankRepo") {
@@ -76,7 +76,7 @@ class CurriedServiceSpec extends FunSpec with Matchers {
 
         val fWithPassThrough: (BankId) => Option[Bank] = fWithRepo(passThrough)
 
-        it("should returns all banks of the repo") {
+        it("should returns all banks of the repo", EXO_4_4) {
 
           fWithPassThrough(bnpp.id) shouldBe Some(bnpp)
           fWithPassThrough(socgen.id) shouldBe Some(socgen)
@@ -91,7 +91,7 @@ class CurriedServiceSpec extends FunSpec with Matchers {
 
         val fForBnp: (BankId) => Option[Bank] = fWithRepo(bnppCheck)
 
-        it("should only returns BNPP") {
+        it("should only returns BNPP", EXO_4_4) {
           fForBnp(bnpp.id) shouldBe Some(bnpp)
           fForBnp(socgen.id) shouldBe None
           fForBnp(BankId(3)) shouldBe None
@@ -128,7 +128,7 @@ class CurriedServiceSpec extends FunSpec with Matchers {
       |
       |##Tests
     """.stripMargin)
-  
+
   describe("the extension of ResourceCheck with User") {
 
     describe("bank ACL") {
@@ -140,23 +140,23 @@ class CurriedServiceSpec extends FunSpec with Matchers {
         case _ => false
       }
 
-      it("should give access to an attached bank admin") {
+      it("should give access to an attached bank admin", EXO_4_5) {
         bankAcl(bnpAdmin)(bnpp) shouldBe true
       }
 
-      it("should not give access to a bank admin attached to another bank") {
+      it("should not give access to a bank admin attached to another bank", EXO_4_5) {
         bankAcl(sgAdmin)(bnpp) shouldBe false
       }
 
-      it("should not give access to a merchant user") {
+      it("should not give access to a merchant user", EXO_4_5) {
         bankAcl(sephoraAdmin)(bnpp) shouldBe false
       }
 
-      it("should give access to a global admin") {
+      it("should give access to a global admin", EXO_4_5) {
         bankAcl(AdminUser)(bnpp) shouldBe true
       }
 
-      it("can be used with RestService#findBank") {
+      it("can be used with RestService#findBank", EXO_4_5) {
         val findBank: (User) => (BankId) => Option[Bank] = (user: User) => RestService.findBank(bankRepo)(bankAcl(user))
         val curriedFindBank: (User, BankId) => Option[Bank] = Function.uncurried(findBank)
         listApplicative.apply2(users, bankIds)(curriedFindBank) shouldBe List(
@@ -192,27 +192,27 @@ class CurriedServiceSpec extends FunSpec with Matchers {
       }
 
 
-      it("should give access to an attached bank admin") {
+      it("should give access to an attached bank admin", EXO_4_5) {
         merchantAcl(bnpAdmin)(mcdo) shouldBe true
       }
 
-      it("should not give access to a bank admin attached to another bank") {
+      it("should not give access to a bank admin attached to another bank", EXO_4_5) {
         merchantAcl(sgAdmin)(mcdo) shouldBe false
       }
 
-      it("should give access to attached merchant user") {
+      it("should give access to attached merchant user", EXO_4_5) {
         merchantAcl(mcdoAdmin)(mcdo) shouldBe true
       }
 
-      it("should not give access to a merchant admin attached to another merchant") {
+      it("should not give access to a merchant admin attached to another merchant", EXO_4_5) {
         merchantAcl(sephoraAdmin)(mcdo) shouldBe false
       }
 
-      it("should give access to a global admin") {
+      it("should give access to a global admin", EXO_4_5) {
         merchantAcl(AdminUser)(mcdo) shouldBe true
       }
 
-      it("can be used with RestService#findMerchant") {
+      it("can be used with RestService#findMerchant", EXO_4_5) {
         val findMerchant = (user: User) => RestService.findMerchant(merchantRepo)(merchantAcl(user))
         val curriedFindMerchant: (User, MerchantId) => Option[Merchant] = Function.uncurried(findMerchant)
         listApplicative.apply2(users, merchantIds)(curriedFindMerchant) shouldBe List(

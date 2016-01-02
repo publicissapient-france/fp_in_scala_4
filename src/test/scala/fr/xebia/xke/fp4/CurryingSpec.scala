@@ -24,12 +24,12 @@ class CurryingSpec extends FunSpec with Matchers {
 
     def add(x: Int, y: Int): Int = x + y
 
-    it("should add x with y") {
+    it("should add x with y", EXO_4_2) {
       add(1, 2) shouldBe 3
       List(1, 2, 3).map(x => add(1, x)) shouldBe List(2, 3, 4)
     }
 
-    it("it can be manually partially applied on x") {
+    it("it can be manually partially applied on x", EXO_4_2) {
       val add_one: Int => Int = (x: Int) => add(x, 1)
 
       add_one(2) shouldBe 3
@@ -41,12 +41,12 @@ class CurryingSpec extends FunSpec with Matchers {
 
     def add(x: Int): Int => Int = (y: Int) => x + y
 
-    it("should add x with y") {
+    it("should add x with y", EXO_4_2) {
       add(1)(2) shouldBe 3
       List(1, 2, 3).map(x => add(1)(x)) shouldBe List(2, 3, 4)
     }
 
-    it("it can be manually partially applied on x") {
+    it("it can be manually partially applied on x", EXO_4_2) {
       val add_one: Int => Int = (x: Int) => add(1)(x)
 
       add_one(2) shouldBe 3
@@ -58,7 +58,7 @@ class CurryingSpec extends FunSpec with Matchers {
 
     def curry[A, B, C](f: ((A, B) => C)): A => B => C = (a: A) => (b: B) => f(a, b)
 
-    it("it transform any function (A,B) => C into A => B => C") {
+    it("it transform any function (A,B) => C into A => B => C", EXO_4_2) {
       def add(x: Int, y: Int): Int = x + y
       val yet_another_curried_add_one = curry(add)(1)
 
@@ -83,25 +83,25 @@ class CurryingSpec extends FunSpec with Matchers {
 
     def add(x: Int)(y: Int): Int = x + y
 
-    it("should add x with y") {
+    it("should add x with y", EXO_4_3) {
       add(1)(2) shouldBe 3
       List(1, 2, 3).map(x => add(1)(x)) shouldBe List(2, 3, 4)
     }
 
-    it("it can be manually partially applied on x") {
+    it("it can be manually partially applied on x", EXO_4_3) {
       val add_one: Int => Int = add(1)
 
       add_one(2) shouldBe 3
       List(1, 2, 3).map(add_one) shouldBe List(2, 3, 4)
     }
 
-    it("it can be uncurried") {
+    it("it can be uncurried", EXO_4_3) {
       val add_uncurried: (Int, Int) => Int = Function.uncurried(add)
 
       add_uncurried(1, 2) shouldBe 3
     }
 
-    it("it can be uncurried and curried") {
+    it("it can be uncurried and curried", EXO_4_3) {
       val add_uncurried: (Int, Int) => Int = Function.uncurried(add)
       val add_re_curried: Int => Int => Int = add_uncurried.curried
 

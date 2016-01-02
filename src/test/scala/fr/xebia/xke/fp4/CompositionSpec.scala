@@ -35,7 +35,7 @@ class CompositionSpec extends FunSpec with Matchers {
     val f: Int => Int = i => i + 10
     describe("function f of type Int => Int") {
 
-      it("should add 10 to an int") {
+      it("should add 10 to an int", EXO_4_1) {
         f(1) shouldBe 11
       }
     }
@@ -43,32 +43,32 @@ class CompositionSpec extends FunSpec with Matchers {
     val g: Int => String = i => i.toString
     describe("function g of type Int => String") {
 
-      it("should make toString of int") {
+      it("should make toString of int", EXO_4_1) {
         g(1) shouldBe "1"
       }
     }
 
     describe("f andThen g") {
-      val h = f andThen g
-      it("must be the equivalent to successive call of f and g with intermediate results") {
+      val h: (Int) => String = f andThen g
+      it("must be the equivalent to successive call of f and g with intermediate results", EXO_4_1) {
         val r1 = f(1)
         val r2 = g(r1)
 
         r2 shouldBe h(1)
       }
 
-      it("must be the equivalent to successive call of f and g on Lists") {
+      it("must be the equivalent to successive call of f and g on Lists", EXO_4_1) {
         List(1, 2, 3).map(f).map(g) shouldBe List(1, 2, 3).map(f andThen g)
       }
     }
 
     describe("g compose f") {
-      val h = g compose f
-      it("should add 10 and the make toString") {
+      val h: (Int) => String = g compose f
+      it("should add 10 and the make toString", EXO_4_1) {
         h(1) shouldBe "11"
       }
 
-      it("must be the equivalent to successive call of f and g") {
+      it("must be the equivalent to successive call of f and g", EXO_4_1) {
         List(1, 2, 3).map(f).map(g) shouldBe List(1, 2, 3).map(f andThen g)
 
         import scala.concurrent.ExecutionContext.Implicits.global
@@ -85,7 +85,7 @@ class CompositionSpec extends FunSpec with Matchers {
     }
 
     describe("g andThen f") {
-      it("should not type check") {
+      it("should not type check", EXO_4_1) {
         "g andThen f" shouldNot typeCheck
         "g andThen f" shouldNot compile
       }
