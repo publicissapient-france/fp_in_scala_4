@@ -32,7 +32,7 @@ class CompositionSpec extends FunSpec with Matchers {
 
   describe("function composition") {
 
-    val f: Int => Int = ??? //TODO EXO1
+    lazy val f: Int => Int = ??? //TODO EXO1
     describe("function f of type Int => Int") {
 
       it("should add 10 to an int", EXO_4_1) {
@@ -40,7 +40,7 @@ class CompositionSpec extends FunSpec with Matchers {
       }
     }
 
-    val g: Int => String = ??? //TODO EXO1
+    lazy val g: Int => String = ??? //TODO EXO1
     describe("function g of type Int => String") {
 
       it("should make toString of int", EXO_4_1) {
@@ -49,7 +49,7 @@ class CompositionSpec extends FunSpec with Matchers {
     }
 
     describe("f andThen g") {
-      val h: (Int) => String = ??? //TODO EXO1
+      lazy val h: (Int) => String = ??? //TODO EXO1
       it("must be the equivalent to successive call of f and g with intermediate results", EXO_4_1) {
         val r1 = f(1)
         val r2 = g(r1)
@@ -63,7 +63,7 @@ class CompositionSpec extends FunSpec with Matchers {
     }
 
     describe("g compose f") {
-      val h: (Int) => String = ??? //TODO EXO1
+      lazy val h: (Int) => String = ??? //TODO EXO1
       it("should add 10 and the make toString", EXO_4_1) {
         h(1) shouldBe "11"
       }

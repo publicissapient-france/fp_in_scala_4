@@ -70,11 +70,11 @@ class CurriedServiceSpec extends FunSpec with Matchers {
 
     describe("with a bankRepo") {
 
-      val fWithRepo: (ResourceCheck[Bank]) => (BankId) => Option[Bank] = ??? //TODO EXO4
+      lazy val fWithRepo: (ResourceCheck[Bank]) => (BankId) => Option[Bank] = ??? //TODO EXO4
 
       describe("with a passThrough checker") {
 
-        val fWithPassThrough: (BankId) => Option[Bank] = ??? //TODO EXO4
+        lazy val fWithPassThrough: (BankId) => Option[Bank] = ??? //TODO EXO4
 
         it("should returns all banks of the repo", EXO_4_4) {
 
@@ -89,7 +89,7 @@ class CurriedServiceSpec extends FunSpec with Matchers {
 
         val bnppCheck: ResourceCheck[Bank] = (bank: Bank) => bank.id == bnpp.id
 
-        val fForBnp: (BankId) => Option[Bank] = ??? //TODO EXO4
+        lazy val fForBnp: (BankId) => Option[Bank] = ??? //TODO EXO4
 
         it("should only returns BNPP", EXO_4_4) {
           fForBnp(bnpp.id) shouldBe Some(bnpp)
