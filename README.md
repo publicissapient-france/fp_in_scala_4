@@ -162,8 +162,9 @@ It is an alias for `Resource ⇨ PartialFunction[User, Boolean]`
 
 ##Note
 For some convenience, you'll see that there is an inversion of types.
-`type Acl[Resource]        = User ⇨ Resource ⇨ Boolean`
-`type PartialAcl[Resource] = Resource ⇨ User ⇨ Boolean`
+
+    type Acl[Resource]        = User ⇨ Resource ⇨ Boolean
+    type PartialAcl[Resource] = Resource ⇨ User ⇨ Boolean
 
 We'll have to flip the two first arguments at a moment!
 
