@@ -54,15 +54,28 @@ class CurryingSpec extends FunSpec with Matchers {
     }
   }
 
-  describe("the curry function") {
+  def curry[A, B, C](f: ((A, B) => C)): A => B => C = (a: A) => (b: B) => f(a, b)
 
-    def curry[A, B, C](f: ((A, B) => C)): A => B => C = (a: A) => (b: B) => f(a, b)
+  def uncurry[A, B, C](f: (A => B => C)): (A, B) => C = (a: A, b: B) => f(a)(b)
+
+  describe("the curry function") {
 
     it("it transform any function (A,B) => C into A => B => C", EXO_4_2) {
       def add(x: Int, y: Int): Int = x + y
       val yet_another_curried_add_one = curry(add)(1)
 
       yet_another_curried_add_one(2) shouldBe 3
+
+    }
+  }
+
+  describe("the uncurry function") {
+
+    it("it transform any function A => B => C into (A,B) => C", EXO_4_2) {
+      def add(x: Int)(y: Int): Int = x + y
+      val yet_another_uncurried_add = uncurry(add)
+
+      yet_another_uncurried_add(1, 2) shouldBe 3
 
     }
   }
@@ -96,14 +109,14 @@ class CurryingSpec extends FunSpec with Matchers {
     }
 
     it("it can be uncurried", EXO_4_3) {
-      val add_uncurried: (Int, Int) => Int = Function.uncurried(add)
+      val add_uncurried: (Int, Int) => Int = uncurry(add)
 
       add_uncurried(1, 2) shouldBe 3
     }
 
     it("it can be uncurried and curried", EXO_4_3) {
-      val add_uncurried: (Int, Int) => Int = Function.uncurried(add)
-      val add_re_curried: Int => Int => Int = add_uncurried.curried
+      val add_uncurried: (Int, Int) => Int = uncurry(add)
+      val add_re_curried: Int => Int => Int = curry(add_uncurried)
 
       add_re_curried(1)(2) shouldBe 3
     }

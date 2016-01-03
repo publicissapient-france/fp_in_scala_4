@@ -58,7 +58,7 @@ class CompositionSpec extends FunSpec with Matchers {
       }
 
       it("must be the equivalent to successive call of f and g on Lists", EXO_4_1) {
-        List(1, 2, 3).map(f).map(g) shouldBe List(1, 2, 3).map(f andThen g)
+        List(1, 2, 3).map(f).map(g) shouldBe List(1, 2, 3).map(h)
       }
     }
 
@@ -69,11 +69,11 @@ class CompositionSpec extends FunSpec with Matchers {
       }
 
       it("must be the equivalent to successive call of f and g", EXO_4_1) {
-        List(1, 2, 3).map(f).map(g) shouldBe List(1, 2, 3).map(f andThen g)
+        List(1, 2, 3).map(f).map(g) shouldBe List(1, 2, 3).map(h)
 
         import scala.concurrent.ExecutionContext.Implicits.global
         val f1 = Future(1).map(f).map(g)
-        val f2 = Future(1).map(f andThen g)
+        val f2 = Future(1).map(h)
 
         val (r1, r2) = Await.result(for {
           result1 <- f1
