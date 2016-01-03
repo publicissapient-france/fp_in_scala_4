@@ -12,20 +12,16 @@ trait Monade[F[_]] extends Applicative[F] {
   // pour rappel, ceci est aussi abstrait dans Applicative
   // def point[A](a: => A): List[A] = ???
 
-  //TODO EXO2
   override def map[A, B](fa: F[A])(f: A => B): F[B] = flatMap(fa)(a => point(f(a)))
 
-  //TODO EXO2
   override def ap[A, B](fa: F[A])(f: F[A => B]): F[B] = flatMap(fa)(a => map(f)(g => g(a)))
 
-  //TODO EXO3
   def flatten[A](ffa: F[F[A]]): F[A] = flatMap(ffa)(fa => fa)
 
 }
 
 object Monade {
 
-  //TODO EXO1
   val listMonade = new Monade[List] {
 
     override def flatMap[A, B](fa: List[A])(f: (A) => List[B]): List[B] = fa match {
@@ -37,7 +33,6 @@ object Monade {
 
   }
 
-  //TODO EXO6
   val retryMonade = new Monade[Retry] {
 
     override def flatMap[A, B](fa: Retry[A])(f: (A) => Retry[B]): Retry[B] = fa match {

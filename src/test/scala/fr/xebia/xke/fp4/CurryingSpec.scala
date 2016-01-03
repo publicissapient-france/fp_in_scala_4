@@ -22,7 +22,7 @@ class CurryingSpec extends FunSpec with Matchers {
 
   describe("an add function with 2 arguments for integers") {
 
-    def add(x: Int, y: Int): Int = x + y
+    def add(x: Int, y: Int): Int = ??? //TODO EXO2
 
     it("should add x with y", EXO_4_2) {
       add(1, 2) shouldBe 3
@@ -30,7 +30,7 @@ class CurryingSpec extends FunSpec with Matchers {
     }
 
     it("it can be manually partially applied on x", EXO_4_2) {
-      val add_one: Int => Int = (x: Int) => add(x, 1)
+      val add_one: Int => Int = ??? //TODO EXO2
 
       add_one(2) shouldBe 3
       List(1, 2, 3).map(add_one) shouldBe List(2, 3, 4)
@@ -39,7 +39,7 @@ class CurryingSpec extends FunSpec with Matchers {
 
   describe("an add function as higher order function") {
 
-    def add(x: Int): Int => Int = (y: Int) => x + y
+    def add(x: Int): Int => Int = ??? //TODO EXO2
 
     it("should add x with y", EXO_4_2) {
       add(1)(2) shouldBe 3
@@ -47,22 +47,22 @@ class CurryingSpec extends FunSpec with Matchers {
     }
 
     it("it can be manually partially applied on x", EXO_4_2) {
-      val add_one: Int => Int = (x: Int) => add(1)(x)
+      val add_one: Int => Int = ??? //TODO EXO2
 
       add_one(2) shouldBe 3
       List(1, 2, 3).map(add_one) shouldBe List(2, 3, 4)
     }
   }
 
-  def curry[A, B, C](f: ((A, B) => C)): A => B => C = (a: A) => (b: B) => f(a, b)
+  def curry[A, B, C](f: ((A, B) => C)): A => B => C = ??? //TODO EXO2
 
-  def uncurry[A, B, C](f: (A => B => C)): (A, B) => C = (a: A, b: B) => f(a)(b)
+  def uncurry[A, B, C](f: (A => B => C)): (A, B) => C = ??? //TODO EXO2
 
   describe("the curry function") {
 
     it("it transform any function (A,B) => C into A => B => C", EXO_4_2) {
-      def add(x: Int, y: Int): Int = x + y
-      val yet_another_curried_add_one = curry(add)(1)
+      def add(x: Int, y: Int): Int = ??? //TODO EXO2
+      val yet_another_curried_add_one: (Int) => Int = ??? //TODO EXO2
 
       yet_another_curried_add_one(2) shouldBe 3
 
@@ -72,8 +72,8 @@ class CurryingSpec extends FunSpec with Matchers {
   describe("the uncurry function") {
 
     it("it transform any function A => B => C into (A,B) => C", EXO_4_2) {
-      def add(x: Int)(y: Int): Int = x + y
-      val yet_another_uncurried_add = uncurry(add)
+      def add(x: Int)(y: Int): Int = ??? //TODO EXO2
+      val yet_another_uncurried_add: (Int, Int) => Int = ??? //TODO EXO2
 
       yet_another_uncurried_add(1, 2) shouldBe 3
 
@@ -94,7 +94,7 @@ class CurryingSpec extends FunSpec with Matchers {
 
   describe("a curried add function") {
 
-    def add(x: Int)(y: Int): Int = x + y
+    def add(x: Int)(y: Int): Int = ??? //TODO EXO3
 
     it("should add x with y", EXO_4_3) {
       add(1)(2) shouldBe 3
@@ -102,21 +102,21 @@ class CurryingSpec extends FunSpec with Matchers {
     }
 
     it("it can be manually partially applied on x", EXO_4_3) {
-      val add_one: Int => Int = add(1)
+      val add_one: Int => Int = ??? //TODO EXO3
 
       add_one(2) shouldBe 3
       List(1, 2, 3).map(add_one) shouldBe List(2, 3, 4)
     }
 
     it("it can be uncurried", EXO_4_3) {
-      val add_uncurried: (Int, Int) => Int = uncurry(add)
+      val add_uncurried: (Int, Int) => Int = ??? //TODO EXO3
 
       add_uncurried(1, 2) shouldBe 3
     }
 
     it("it can be uncurried and curried", EXO_4_3) {
-      val add_uncurried: (Int, Int) => Int = uncurry(add)
-      val add_re_curried: Int => Int => Int = curry(add_uncurried)
+      val add_uncurried: (Int, Int) => Int = ??? //TODO EXO3
+      val add_re_curried: Int => Int => Int = ??? //TODO EXO3
 
       add_re_curried(1)(2) shouldBe 3
     }

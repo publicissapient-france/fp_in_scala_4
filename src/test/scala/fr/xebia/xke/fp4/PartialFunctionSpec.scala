@@ -92,7 +92,7 @@ class PartialFunctionSpec extends FunSpec with Matchers {
       bobRestriction.isDefinedAt(AdminUser) shouldBe false
       bobRestriction.isDefinedAt(BankUser("bob", BankId(1))) shouldBe true
 
-      val composedRestriction = adminRestriction.orElse(bobRestriction)
+      val composedRestriction: Restriction = ??? //TODO EXO6
       composedRestriction.isDefinedAt(AdminUser) shouldBe true
       composedRestriction.isDefinedAt(BankUser("bob", BankId(1))) shouldBe true
     }
@@ -113,7 +113,7 @@ class PartialFunctionSpec extends FunSpec with Matchers {
         case AdminUser => true
       }
 
-      val liftedRestriction: (User) => Option[Boolean] = adminRestriction.lift
+      val liftedRestriction: (User) => Option[Boolean] = ??? //TODO EXO6
       liftedRestriction(AdminUser) shouldBe Some(true)
       liftedRestriction(BankUser("bob", BankId(1))) shouldBe None
     }
@@ -135,10 +135,7 @@ class PartialFunctionSpec extends FunSpec with Matchers {
   describe("a PartialAcl") {
 
     it("is composed of restriction", EXO_4_7) {
-      val partialAcl: PartialAcl[Bank] = (bank: Bank) => {
-        case BankUser(name, parentId) if parentId == bank.id => true
-      }
-
+      val partialAcl: PartialAcl[Bank] = ??? //TODO EXO7
       val resource = Bank(BankId(1), "BNPP")
       partialAcl(resource).isDefinedAt(AdminUser) shouldBe false
       partialAcl(resource).isDefinedAt(BankUser("admin", BankId(1))) shouldBe true
@@ -146,10 +143,7 @@ class PartialFunctionSpec extends FunSpec with Matchers {
     }
 
     it("can be lifted to a full function with default behavior", EXO_4_7) {
-      val partialAcl: PartialAcl[Bank] = (bank: Bank) => {
-        case BankUser(name, parentId) if parentId == bank.id => true
-      }
-
+      val partialAcl: PartialAcl[Bank] = ??? //TODO EXO7
       val acl: Acl[Bank] = PartialAcl.lift(partialAcl)
 
       val resource = Bank(BankId(1), "BNPP")
@@ -167,10 +161,7 @@ class PartialFunctionSpec extends FunSpec with Matchers {
 
   describe("bank ACL") {
 
-    lazy val bankAcl: PartialAcl[Bank] = bank => {
-      case BankUser(_, parentId) if parentId == bank.id => true
-    }
-
+    lazy val bankAcl: PartialAcl[Bank] = ??? //TODO EXO8
     it("should give access to an attached bank admin", EXO_4_8) {
       bankAcl(bnpp)(bnpAdmin) shouldBe true
     }
@@ -188,7 +179,7 @@ class PartialFunctionSpec extends FunSpec with Matchers {
     }
 
     it("can be used with RestService#findBank", EXO_4_8) {
-      val findBank: (User) => (BankId) => Option[Bank] = PartialAcl.lift(bankAcl) andThen RestService.findBank(bankRepo)
+      val findBank: (User) => (BankId) => Option[Bank] = ??? //TODO EXO8
 
       listApplicative.fpair2(users)(bankIds)(findBank) shouldBe List(
         (bnpAdmin, BankId(1), Some(bnpp)),
@@ -205,11 +196,7 @@ class PartialFunctionSpec extends FunSpec with Matchers {
 
   describe("merchant ACL") {
 
-    lazy val merchantAcl: PartialAcl[Merchant] = merchant => {
-      case BankUser(_, parentId) if parentId == merchant.parent => true
-      case MerchantUser(_, parentId) if parentId == merchant.id => true
-    }
-
+    lazy val merchantAcl: PartialAcl[Merchant] = ??? //TODO EXO9
     it("should give access to an attached bank admin", EXO_4_9) {
       merchantAcl(mcdo)(bnpAdmin) shouldBe true
     }
@@ -231,7 +218,7 @@ class PartialFunctionSpec extends FunSpec with Matchers {
     }
 
     it("can be used with RestService#findMerchant", EXO_4_9) {
-      val findMerchant = PartialAcl.lift(merchantAcl) andThen RestService.findMerchant(merchantRepo)
+      val findMerchant = ??? //TODO EXO9
 
       listApplicative.fpair2(users)(merchantIds)(findMerchant) shouldBe List(
         (bnpAdmin, MerchantId(1), Some(mcdo)),

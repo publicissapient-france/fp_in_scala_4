@@ -26,7 +26,6 @@ object StringWriter {
 
   lazy val stringWriterMonad = new Monade[StringWriter] {
 
-    //TODO EXO9
     override def flatMap[A, B](a: StringWriter[A])(f: (A) => StringWriter[B]): StringWriter[B] = {
       val b = f(a.value)
       b.copy(log = a.log + "\n" + b.log)
@@ -63,7 +62,6 @@ object JsonWriter {
 
   lazy val jsonWriterMonad = new Monade[JsonWriter] {
 
-    //TODO EXO9
     override def flatMap[A, B](a: JsonWriter[A])(f: (A) => JsonWriter[B]): JsonWriter[B] = {
       val b = f(a.value)
       b.copy(log = a.log ++ b.log)

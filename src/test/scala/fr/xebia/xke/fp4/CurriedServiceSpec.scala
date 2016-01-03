@@ -70,11 +70,11 @@ class CurriedServiceSpec extends FunSpec with Matchers {
 
     describe("with a bankRepo") {
 
-      val fWithRepo: (ResourceCheck[Bank]) => (BankId) => Option[Bank] = RestService.findBank(bankRepo)
+      val fWithRepo: (ResourceCheck[Bank]) => (BankId) => Option[Bank] = ??? //TODO EXO4
 
       describe("with a passThrough checker") {
 
-        val fWithPassThrough: (BankId) => Option[Bank] = fWithRepo(passThrough)
+        val fWithPassThrough: (BankId) => Option[Bank] = ??? //TODO EXO4
 
         it("should returns all banks of the repo", EXO_4_4) {
 
@@ -89,7 +89,7 @@ class CurriedServiceSpec extends FunSpec with Matchers {
 
         val bnppCheck: ResourceCheck[Bank] = (bank: Bank) => bank.id == bnpp.id
 
-        val fForBnp: (BankId) => Option[Bank] = fWithRepo(bnppCheck)
+        val fForBnp: (BankId) => Option[Bank] = ??? //TODO EXO4
 
         it("should only returns BNPP", EXO_4_4) {
           fForBnp(bnpp.id) shouldBe Some(bnpp)
@@ -133,12 +133,7 @@ class CurriedServiceSpec extends FunSpec with Matchers {
 
     describe("bank ACL") {
 
-      lazy val bankAcl: Acl[Bank] = user => bank => user match {
-        case BankUser(_, parentId) => parentId == bank.id
-        case MerchantUser(_, _) => false
-        case AdminUser => true
-        case _ => false
-      }
+      lazy val bankAcl: Acl[Bank] = ??? //TODO EXO5
 
       it("should give access to an attached bank admin", EXO_4_5) {
         bankAcl(bnpAdmin)(bnpp) shouldBe true
@@ -157,8 +152,8 @@ class CurriedServiceSpec extends FunSpec with Matchers {
       }
 
       it("can be used with RestService#findBank", EXO_4_5) {
-        val findBank: (User) => (BankId) => Option[Bank] = (user: User) => RestService.findBank(bankRepo)(bankAcl(user))
-        val curriedFindBank: (User, BankId) => Option[Bank] = Function.uncurried(findBank)
+        val findBank: (User) => (BankId) => Option[Bank] = ??? //TODO EXO5
+        val curriedFindBank: (User, BankId) => Option[Bank] = ??? //TODO EXO5
         listApplicative.apply2(users, bankIds)(curriedFindBank) shouldBe List(
           Some(bnpp), //bnpAdmin
           None, //socgenAdmin
@@ -184,13 +179,7 @@ class CurriedServiceSpec extends FunSpec with Matchers {
 
     describe("merchant ACL") {
 
-      lazy val merchantAcl: Acl[Merchant] = user => merchant => user match {
-        case BankUser(_, parentId) => parentId == merchant.parent
-        case MerchantUser(_, parentId) => parentId == merchant.id
-        case AdminUser => true
-        case _ => false
-      }
-
+      lazy val merchantAcl: Acl[Merchant] = ??? //TODO EXO5
 
       it("should give access to an attached bank admin", EXO_4_5) {
         merchantAcl(bnpAdmin)(mcdo) shouldBe true
@@ -213,8 +202,8 @@ class CurriedServiceSpec extends FunSpec with Matchers {
       }
 
       it("can be used with RestService#findMerchant", EXO_4_5) {
-        val findMerchant = (user: User) => RestService.findMerchant(merchantRepo)(merchantAcl(user))
-        val curriedFindMerchant: (User, MerchantId) => Option[Merchant] = Function.uncurried(findMerchant)
+        val findMerchant: (User) => (MerchantId) => Option[Merchant] = ??? //TODO EXO5
+        val curriedFindMerchant: (User, MerchantId) => Option[Merchant] = ??? //TODO EXO5
         listApplicative.apply2(users, merchantIds)(curriedFindMerchant) shouldBe List(
           Some(mcdo), //bnpAdmin
           None, //socgen
