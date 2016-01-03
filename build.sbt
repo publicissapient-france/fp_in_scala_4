@@ -14,7 +14,7 @@ lazy val openTestsReport: TaskKey[Unit] = taskKey("Open HTML report for tests")
 
 openTestsReport := {
   println("Opening test reports...")
-  "open target/html/index.html".!
+  "open -g target/html/index.html".!
 }
 
 lazy val exo1: TaskKey[Unit] = taskKey("Launch EXO 1")
